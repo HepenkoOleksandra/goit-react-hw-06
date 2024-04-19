@@ -1,15 +1,26 @@
-import initialContacts from "./contacts.json";
-import { useEffect, useState } from "react";
+// import initialContacts from "./contacts.json";
+import { useEffect } from "react";
 import ContactForm from "./ContactForm/ContactForm";
 import ContactList from "./ContactList/ContactList";
 import SearchBox from "./SearchBox/SearchBox";
 import '../App.css';
+import { useSelector } from "react-redux";
 
 function App() {
-  const [contacts, setContacts] = useState(() => {
-    return JSON.parse(window.localStorage.getItem("contact")) ?? initialContacts;
+  // const [contacts, setContacts] = useState(() => {
+  //   return JSON.parse(window.localStorage.getItem("contact")) ?? initialContacts;
+  // });
+  // const [filter, setFilter] = useState("");
+
+  const contacts = useSelector((state) => {
+    console.log(state);
+    return state.contacts.contacts;
   });
-  const [filter, setFilter] = useState("");
+  
+  const filter = useSelector((state) => {
+    console.log(state);
+    return state.filters.filters
+  });
 
   const onAddContact = (dataForm) => {
     console.log(dataForm);
@@ -44,4 +55,4 @@ function App() {
     )
   }
 
-  export default App;
+  export default App
