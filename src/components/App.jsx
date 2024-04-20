@@ -5,6 +5,8 @@ import ContactList from "./ContactList/ContactList";
 import SearchBox from "./SearchBox/SearchBox";
 import '../App.css';
 import { useDispatch, useSelector } from "react-redux";
+import { addContact, deleteContact } from "../redux/contactsReducer";
+import { setFilter } from "../redux/filtersSlice";
 
 function App() {
   // const [contacts, setContacts] = useState(() => {
@@ -12,13 +14,18 @@ function App() {
   // });
   // const [filter, setFilter] = useState("");
   const dispatch = useDispatch();
-  const contacts = useSelector(state => state.contacts.contacts);
-  const filter = useSelector(state => state.contacts.filters);
+  const contacts = useSelector(state => state.contacts.items);
+  console.log(contacts);
+  const filter = useSelector(state => {
+    console.log(state);
+    return state.filters.name
+  });
+  console.log(filter);
 
   const onAddContact = (dataForm) => {
     const newContact = dataForm;
 
-    const action = { type: "contact/ADD_CONTACT", payload: newContact };
+    const action = addContact(newContact);
     
     dispatch(action);
     // setContacts((prevContacts) => {
@@ -26,12 +33,12 @@ function App() {
     // });
   }
 
-  useEffect(() => {
-    window.localStorage.setItem("contact", JSON.stringify(contacts));
-  }, [contacts]);
+  // useEffect(() => {
+  //   window.localStorage.setItem("contact", JSON.stringify(contacts));
+  // }, [contacts]);
 
   const onDelete = (contactId) => {
-    const action = { type: "contact/DELETE_CONTACT", payload: contactId };
+    const action = deleteContact(contactId);
 
     dispatch(action);
     
@@ -40,22 +47,22 @@ function App() {
     // })
   }
 
-   const filterContacts = contacts.filter((contact) =>     
-    contact.name.toLowerCase().includes(filter.toLowerCase())
-   );
+  const filterContacts = contacts.filter((contact) => {
+    return contact.name.toLowerCase().includes(filter.toLowerCase()) ||
+contact.number.toLowerCase().includes(filter.toLowerCase())
+  }
+  );
   
-  const onChangeFilter = (searchTerm) => {
-    const action = { type: "contact/SET_FILTER", payload: searchTerm };
-
-    dispatch(action);
-    // setFilter(event.target.value);
+   const onChangeFilter = (searchTerm) => {
+    const action = setFilter(searchTerm);
+        dispatch(action);
   };
-   
+    
     return (
       <div className='container'>
         <h1 className='containerTitle'>Phonebook</h1>
         <ContactForm onAddContact={onAddContact} />
-        <SearchBox value={filter} onFilter={onChangeFilter()} />
+        <SearchBox filter={filter} onFilter={onChangeFilter} />
         <ContactList contacts={filterContacts} onDelete={onDelete} />
       </div>
     )
