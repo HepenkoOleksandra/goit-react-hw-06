@@ -1,8 +1,8 @@
 import { BiSolidUser } from "react-icons/bi";
 import { BsFillTelephoneFill } from "react-icons/bs";
-import css from './Contact.module.css';
 import { deleteContact } from "../../redux/contactsSlice";
 import { useDispatch } from "react-redux";
+import css from './Contact.module.css';
 
 const Contact = ({ name, number, id }) => {
     const dispatch = useDispatch();
