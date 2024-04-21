@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const INITAL_STATE = {
-  name: "",
-  // filters: {name: ""}
+  // name: "",
+  filters: {name: ""},
 }
 
 const filterSlice = createSlice({
@@ -13,12 +13,17 @@ const filterSlice = createSlice({
   // Об'єкт редюсерів
   reducers: {
     setFilter(state, action) {
-      state.name = action.payload
+      state.filters.name = action.payload
     },
   },
+  selectors: {
+    selectNameFilter: state => state.filters.filters.name
+  } 
 });
 
-// Генератори екшенів
+// export const selectNameFilter = state => state.filters.filters.name;
+export const { selectNameFilter } = filterSlice.selectors;
+
 export const { setFilter } = filterSlice.actions;
 
 // Редюсер слайсу
