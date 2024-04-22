@@ -9,10 +9,10 @@ import './index.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <PersistGate persistor={persistor}>
     <Provider store={store}>
-      <App />
-      </Provider>
+      <PersistGate persistor={persistor}>
+        <App />
       </PersistGate>
-  </React.StrictMode>,
-)
+    </Provider>
+  </React.StrictMode >,
+);
